@@ -14,6 +14,7 @@ const Home = () => {
         const response = await axios.get(
           `${process.env.REACT_APP_BASE_URL}/task/`
         );
+        console.log(response);
         setTasks(response.data.tasks);
       } catch (err) {
         setError(err.message);
