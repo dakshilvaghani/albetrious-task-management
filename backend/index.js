@@ -17,6 +17,7 @@ app.use(
     origin: [
       "http://localhost:3000",
       "https://albetrious-task-management-5hs7-dicokm737.vercel.app",
+      "https://albetrious-task-management.onrender.com",
     ],
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
