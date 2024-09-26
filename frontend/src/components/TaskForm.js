@@ -36,14 +36,17 @@ const TaskForm = ({ task, closeModal }) => {
     try {
       if (task) {
         await axios.put(
-          `http://localhost:5000/api/task/update/${task._id}`,
+          `${process.env.REACT_APP_BASE_URL}/task/update/${task._id}`,
           taskData
         );
         dispatch(editTask({ id: task.id, updatedTask: taskData }));
         toast.success("Task updated successfully!");
         navigate("/");
       } else {
-        await axios.post("http://localhost:5000/api/task/create", taskData);
+        await axios.post(
+          `${process.env.REACT_APP_BASE_URL}/task/create`,
+          taskData
+        );
         dispatch(addTask(taskData));
         toast.success("Task added successfully!");
         navigate("/");

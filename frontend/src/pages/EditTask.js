@@ -13,7 +13,7 @@ const EditTask = () => {
     const fetchTask = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:5000/api/task/${id}`
+          `${process.env.REACT_APP_BASE_URL}/task/${id}`
         );
         setTask(response.data.task);
       } catch (err) {

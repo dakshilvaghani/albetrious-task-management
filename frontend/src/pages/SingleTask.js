@@ -17,7 +17,7 @@ const SingleTask = () => {
     const fetchTask = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:5000/api/task/${id}`
+          `${process.env.REACT_APP_BASE_URL}/task/${id}`
         );
         setTask(response.data.task);
         setUpdatedTitle(response.data.task.title);
@@ -36,7 +36,7 @@ const SingleTask = () => {
   // Handle delete operation
   const handleDelete = async () => {
     try {
-      await axios.delete(`http://localhost:5000/api/task/delete/${id}`);
+      await axios.delete(`${process.env.REACT_APP_BASE_URL}/task/delete/${id}`);
       toast.success("Task deleted successfully!");
       navigate("/"); // Redirect to home after deletion
     } catch (error) {

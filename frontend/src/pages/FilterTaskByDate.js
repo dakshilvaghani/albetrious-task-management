@@ -12,7 +12,7 @@ const FilterTasksByDate = () => {
   const handleFilterTasks = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:5000/api/task/filter?date=${selectedDate}`
+        `${process.env.REACT_APP_BASE_URL}/task/filter?date=${selectedDate}`
       );
       console.log(response.data);
       setTasks(response.data.tasks);
