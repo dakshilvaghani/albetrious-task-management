@@ -10,7 +10,7 @@ const Home = () => {
   useEffect(() => {
     const fetchTasks = async () => {
       try {
-        const response = await axios.get(`${process.env.REACT_APP_BASE_URL}task/`);
+        const response = await axios.get("http://localhost:5000/api/task/");
         setTasks(response.data.tasks);
       } catch (err) {
         setError(err.message);
