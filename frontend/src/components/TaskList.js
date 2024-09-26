@@ -14,15 +14,16 @@ const TaskList = ({ tasks }) => {
 
   return (
     <div className="flex flex-wrap justify-center md:h-[150px] lg:h-[230px] xl:h-[200px]">
-      {tasks.map((task) => (
-        <Link
-          className="w-full h-full md:w-6/14 lg:w-1/4 md:ml-5 lg:ml-12 md:mb-4 lg:mb-4"
-          key={task._id}
-          to={`/tasks/${task._id}`}
-        >
-          <Card task={task} />
-        </Link>
-      ))}
+      {tasks &&
+        tasks.map((task) => (
+          <Link
+            className="w-full h-full md:w-3/7 lg:w-1/4 md:ml-5 lg:ml-12 md:mb-4 lg:mb-4"
+            key={task._id}
+            to={`/tasks/${task._id}`}
+          >
+            <Card task={task} />
+          </Link>
+        ))}
     </div>
   );
 };
