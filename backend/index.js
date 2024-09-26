@@ -18,6 +18,7 @@ app.use(
       "http://localhost:3000",
       "http://localhost:3001",
       "http://127.0.0.1:3000",
+      "https://albetrious-task-management-wt8t.vercel.app/add"
     ],
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
