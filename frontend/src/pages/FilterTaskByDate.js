@@ -4,9 +4,7 @@ import DatePicker from "../components/DatePicker";
 import TaskList from "../components/TaskList";
 
 const FilterTasks = () => {
-  const [selectedDate, setSelectedDate] = useState(
-    new Date().toISOString().split("T")[0]
-  );
+  const [selectedDate, setSelectedDate] = useState("");
   const [selectedStage, setSelectedStage] = useState("");
   const [title, setTitle] = useState(""); 
   const [tasks, setTasks] = useState([]);
