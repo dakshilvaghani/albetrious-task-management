@@ -85,7 +85,16 @@ const SingleTask = () => {
 
   return (
     <div className="flex flex-col items-center justify-center h-[600px]">
-      <div className="bg-white shadow-md rounded-md border border-gray-200 p-6 w-full max-w-2xl">
+      <div
+        className={`bg-white rounded-md border border-gray-200 p-6 w-full max-w-2xl 
+    ${
+      task.stage === "completed"
+        ? "shadow-lg shadow-green-400"
+        : "shadow-lg shadow-red-400"
+    }
+    hover:shadow-xl hover:shadow-opacity-50 transition-shadow duration-200
+  `}
+      >
         <div className="p-4">
           <h2 className="text-2xl font-bold mb-4">{task.title}</h2>
           <p className="mb-4">{task.description}</p>
