@@ -2,17 +2,14 @@ import React, { useEffect, useState } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { ClipLoader } from "react-spinners";
 
 const SingleTask = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const [task, setTask] = useState(null);
-  const [isEditing, setIsEditing] = useState(false);
-  const [updatedTitle, setUpdatedTitle] = useState("");
-  const [updatedDescription, setUpdatedDescription] = useState("");
-  const [updatedDueDate, setUpdatedDueDate] = useState("");
+  const [loading, setLoading] = useState(true);
 
-  // Fetch the task from the backend when the component mounts
   useEffect(() => {
     const fetchTask = async () => {
       try {
@@ -20,127 +17,132 @@ const SingleTask = () => {
           `${process.env.REACT_APP_BASE_URL}/task/${id}`
         );
         setTask(response.data.task);
-        setUpdatedTitle(response.data.task.title);
-        setUpdatedDescription(response.data.task.description);
-        setUpdatedDueDate(
-          new Date(response.data.task.date).toISOString().substring(0, 10)
-        );
       } catch (error) {
         console.error("Error fetching task:", error);
+      } finally {
+        setLoading(false);
       }
     };
 
     fetchTask();
   }, [id]);
 
-  // Handle delete operation
   const handleDelete = async () => {
     try {
       await axios.delete(`${process.env.REACT_APP_BASE_URL}/task/delete/${id}`);
       toast.success("Task deleted successfully!");
-      navigate("/"); // Redirect to home after deletion
+      navigate("/");
     } catch (error) {
       console.error("Failed to delete task:", error);
     }
   };
 
-  // Handle update operation
-  const handleUpdate = async () => {
-    const updatedTask = {
-      title: updatedTitle,
-      description: updatedDescription,
-      date: updatedDueDate,
-      stage: task.stage,
-    };
-    try {
-      await axios.put(`/api/task/${id}`, updatedTask);
-      setIsEditing(false);
-    } catch (error) {
-      console.error("Failed to update task:", error);
+  const getRemainingTime = (dueDate) => {
+    const now = new Date();
+    const due = new Date(dueDate);
+    const remainingTime = due - now;
+
+    if (remainingTime < 0) {
+      return { message: "Task is overdue", days: -1 };
     }
+
+    const days = Math.floor(remainingTime / (1000 * 60 * 60 * 24));
+    const hours = Math.floor(
+      (remainingTime % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+    );
+    const minutes = Math.floor(
+      (remainingTime % (1000 * 60 * 60)) / (1000 * 60)
+    );
+
+    return {
+      message: `${days} days, ${hours} hours, and ${minutes} minutes remaining`,
+      days,
+    };
   };
+
+  const getPriorityLevel = (daysRemaining) => {
+    if (daysRemaining < 0) return { level: "High", color: "text-red-600" }; 
+    if (daysRemaining <= 2) return { level: "High", color: "text-red-600" }; 
+    if (daysRemaining <= 5)
+      return { level: "Medium", color: "text-yellow-500" };
+    return { level: "Low", color: "text-green-600" };
+  };
+
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <ClipLoader color={"#0000FF"} loading={loading} size={30} />
+      </div>
+    );
+  }
 
   if (!task) {
     return <div className="text-center text-lg">Task not found.</div>;
   }
 
-  return (
-    <div className="flex flex-col items-center justify-center h-[600px] ">
-      <div className="bg-white shadow-md rounded-md border border-gray-200 p-6 w-full max-w-2xl">
-        {isEditing ? (
-          <div>
-            <h2 className="text-2xl font-bold mb-4">Edit Task</h2>
-            <input
-              type="text"
-              value={updatedTitle}
-              onChange={(e) => setUpdatedTitle(e.target.value)}
-              className="border rounded-md p-2 mb-4 w-full"
-              placeholder="Task Title"
-            />
-            <textarea
-              value={updatedDescription}
-              onChange={(e) => setUpdatedDescription(e.target.value)}
-              className="border rounded-md p-2 mb-4 w-full"
-              placeholder="Task Description"
-              rows="4"
-            />
-            <input
-              type="date"
-              value={updatedDueDate}
-              onChange={(e) => setUpdatedDueDate(e.target.value)}
-              className="border rounded-md p-2 mb-4 w-full"
-            />
-            <div className="flex justify-between">
-              <button
-                onClick={handleUpdate}
-                className="bg-blue-600 text-white py-2 px-4 rounded-md"
-              >
-                Save Changes
-              </button>
-              <button
-                onClick={() => setIsEditing(false)}
-                className="bg-gray-400 text-white py-2 px-4 rounded-md"
-              >
-                Cancel
-              </button>
-            </div>
-          </div>
-        ) : (
-          <div className="p-4">
-            <h2 className="text-2xl font-bold mb-4">{task.title}</h2>
+  const { message, days } = getRemainingTime(task.date);
+  const { level, color } = getPriorityLevel(days);
 
-            <p className="mb-4">{task.description}</p>
+  return (
+    <div className="flex flex-col items-center justify-center h-[600px]">
+      <div
+        className={`bg-white rounded-md border border-gray-200 p-6 w-full max-w-2xl 
+    shadow-md shadow-gray-400
+    hover:shadow-lg transition-shadow duration-200
+    ${
+      task.stage === "completed"
+        ? "hover:shadow-green-400"
+        : "hover:shadow-red-400"
+    }
+  `}
+      >
+        <div className="p-4">
+          <h2 className="text-2xl font-bold mb-4">{task.title}</h2>
+          <p className="mb-4">{task.description}</p>
+          <p className="mb-4">
+            Due Date:{" "}
+            <span className="font-medium">
+              {new Date(task.date).toLocaleDateString()}
+            </span>
+          </p>
+          {/* Conditionally render remaining time */}
+          {task.stage !== "completed" && (
             <p className="mb-4">
-              Due Date:{" "}
-              <span className="font-medium">
-                {new Date(task.date).toLocaleDateString()}
-              </span>
+              Remaining Time:{" "}
+              <span className="font-medium text-red-600">{message}</span>
             </p>
-            <p>
-              stage:{" "}
-              <span
-                className={`font-medium ${
-                  task.stage === "completed" ? "text-green-600" : "text-red-600"
-                }`}
-              >
-                {task.stage === "completed" ? "Completed" : "in progress"}
-              </span>
+          )}
+          <p>
+            Stage:{" "}
+            <span
+              className={`font-medium ${
+                task.stage === "completed" ? "text-green-600" : "text-red-600"
+              }`}
+            >
+              {task.stage === "completed" ? "Completed" : "In Progress"}
+            </span>
+          </p>
+          {/* Conditionally render priority level */}
+          {task.stage !== "completed" && (
+            <p className="mt-4 font-medium">
+              Priority Level:
+              <span className={`font-medium ${color}`}>{level}</span>
             </p>
-            <div className="flex justify-between mt-4">
-              <Link to={`/edit/${id}`}>
-                <button className="bg-yellow-500 text-white py-2 px-4 rounded-md">
-                  Edit Task
-                </button>
-              </Link>
-              <button
-                onClick={handleDelete}
-                className="bg-red-600 text-white py-2 px-4 rounded-md"
-              >
-                Delete Task
+          )}
+          <div className="flex justify-between mt-4">
+            <Link to={`/edit/${id}`}>
+              <button className="bg-yellow-500 text-white py-2 px-4 rounded-md">
+                Edit Task
               </button>
-            </div>
+            </Link>
+            <button
+              onClick={handleDelete}
+              className="bg-red-600 text-white py-2 px-4 rounded-md"
+            >
+              Delete Task
+            </button>
           </div>
-        )}
+        </div>
       </div>
     </div>
   );
