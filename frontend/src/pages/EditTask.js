@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import TaskForm from "../components/TaskForm";
+import { ClipLoader } from "react-spinners"; 
 
 const EditTask = () => {
   const { id } = useParams();
@@ -27,11 +28,19 @@ const EditTask = () => {
   }, [id]);
 
   if (loading) {
-    return <p>Loading task...</p>;
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <ClipLoader color={"#0000FF"} loading={loading} size={30} />{" "}
+      </div>
+    );
   }
 
   if (error) {
-    return <p>{error}</p>;
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <p className="text-red-500">{error}</p>
+      </div>
+    );
   }
 
   return (
