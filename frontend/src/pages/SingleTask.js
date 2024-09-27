@@ -61,7 +61,7 @@ const SingleTask = () => {
   };
 
   if (!task) {
-    return <div className="text-center text-lg">Task not found.</div>;
+    return <div className="text-center text-lg">Loading...</div>;
   }
 
   return (
