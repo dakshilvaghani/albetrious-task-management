@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import Card from "./Card";
 
 const TaskList = ({ tasks }) => {
-  console.log(tasks);
   if (!tasks.length || tasks==="undefined") {
     return (
       <div className="ml-5 lg:ml-[125px] xl:ml-[140px] 2xl:ml-[220px]">
