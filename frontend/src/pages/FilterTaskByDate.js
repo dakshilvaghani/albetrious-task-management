@@ -7,15 +7,22 @@ const FilterTasks = () => {
   const [selectedDate, setSelectedDate] = useState(
     new Date().toISOString().split("T")[0]
   );
-  const [selectedStage, setSelectedStage] = useState(""); // Add stage state
+  const [selectedStage, setSelectedStage] = useState("");
+  const [title, setTitle] = useState(""); 
   const [tasks, setTasks] = useState([]);
 
-  // Fetch filtered tasks based on date and stage
+  // Fetch filtered tasks based on date, stage, and title
   const handleFilterTasks = async () => {
     try {
       const response = await axios.get(
         `${process.env.REACT_APP_BASE_URL}/task/filter`,
-        { params: { date: selectedDate, stage: selectedStage } } // Pass both filters
+        {
+          params: {
+            date: selectedDate,
+            stage: selectedStage,
+            title: title, 
+          },
+        }
       );
       setTasks(response.data.tasks);
     } catch (error) {
@@ -26,9 +33,7 @@ const FilterTasks = () => {
   return (
     <div>
       <div className="ml-5 lg:ml-[125px] xl:ml-[140px] 2xl:ml-[220px]">
-        <h2 className="text-xl font-bold mb-4">
-          Filter Tasks by Date and Stage
-        </h2>
+        <h2 className="text-xl font-bold mb-4">Filter Tasks</h2>
 
         {/* Date Filter */}
         <DatePicker
@@ -53,6 +58,21 @@ const FilterTasks = () => {
           </select>
         </div>
 
+        {/* Title Filter */}
+        <div className="mt-4">
+          <label htmlFor="title" className="block mb-2">
+            Title:
+          </label>
+          <input
+            id="title"
+            type="text"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            className="px-4 py-2 border rounded w-full md:w-[50%] lg:w-[25%]"
+            placeholder="Search by title"
+          />
+        </div>
+
         <button
           onClick={handleFilterTasks}
           className="px-4 py-2 bg-blue-500 text-white rounded mt-4 mb-4"
@@ -61,6 +81,7 @@ const FilterTasks = () => {
         </button>
       </div>
 
+      {/* Task List */}
       <TaskList tasks={tasks} className="mt-5" />
     </div>
   );
