@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { ClipLoader } from "react-spinners"; // Import ClipLoader for loading spinner
 
 const SingleTask = () => {
   const { id } = useParams();
@@ -11,6 +12,7 @@ const SingleTask = () => {
   const [updatedTitle, setUpdatedTitle] = useState("");
   const [updatedDescription, setUpdatedDescription] = useState("");
   const [updatedDueDate, setUpdatedDueDate] = useState("");
+  const [loading, setLoading] = useState(true); // Loading state
 
   // Fetch the task from the backend when the component mounts
   useEffect(() => {
@@ -27,6 +29,8 @@ const SingleTask = () => {
         );
       } catch (error) {
         console.error("Error fetching task:", error);
+      } finally {
+        setLoading(false); // Set loading to false once the task is fetched
       }
     };
 
@@ -53,19 +57,30 @@ const SingleTask = () => {
       stage: task.stage,
     };
     try {
-      await axios.put(`/api/task/${id}`, updatedTask);
+      await axios.put(
+        `${process.env.REACT_APP_BASE_URL}/task/${id}`,
+        updatedTask
+      );
       setIsEditing(false);
     } catch (error) {
       console.error("Failed to update task:", error);
     }
   };
 
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <ClipLoader color={"#0000FF"} loading={loading} size={30} />{" "}
+      </div>
+    );
+  }
+
   if (!task) {
-    return <div className="text-center text-lg">Loading...</div>;
+    return <div className="text-center text-lg">Task not found.</div>;
   }
 
   return (
-    <div className="flex flex-col items-center justify-center h-[600px] ">
+    <div className="flex flex-col items-center justify-center h-[600px]">
       <div className="bg-white shadow-md rounded-md border border-gray-200 p-6 w-full max-w-2xl">
         {isEditing ? (
           <div>
@@ -117,13 +132,13 @@ const SingleTask = () => {
               </span>
             </p>
             <p>
-              stage:{" "}
+              Stage:{" "}
               <span
                 className={`font-medium ${
                   task.stage === "completed" ? "text-green-600" : "text-red-600"
                 }`}
               >
-                {task.stage === "completed" ? "Completed" : "in progress"}
+                {task.stage === "completed" ? "Completed" : "In Progress"}
               </span>
             </p>
             <div className="flex justify-between mt-4">
