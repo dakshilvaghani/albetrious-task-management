@@ -44,9 +44,11 @@ const EditTask = () => {
   }
 
   return (
-    <div className="w-5/6">
-      <h2 className="text-xl font-bold mb-4">Edit Task</h2>
-      <TaskForm task={task} />
+    <div className="flex justify-center min-h-screen">
+      <div className="w-full md:w-[50%] lg:w-[35%]">
+        <h2 className="text-xl font-bold mb-4">Edit Task</h2>
+        <TaskForm task={task} />
+      </div>
     </div>
   );
 };
