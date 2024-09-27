@@ -2,14 +2,16 @@ import React from "react";
 
 const Card = ({ task }) => {
   return (
-   <div
+  <div
       className={`w-full h-full bg-white rounded-md p-4 mb-4 border border-gray-200 
-        ${
-          task.stage === "completed"
-            ? "shadow-sm shadow-green-400"
-            : "shadow-sm shadow-red-400"
-        } 
-        hover:shadow-md transition-shadow`}
+    shadow-sm shadow-gray-400 
+    hover:shadow-md transition-shadow
+    ${
+      task.stage === "completed"
+        ? "hover:shadow-green-400"
+        : "hover:shadow-red-400"
+    }
+  `}
     >
   <h3 className="text-xl font-bold mb-2 text-gray-800">{task.title}</h3>
       <p className="lg:mt-[1.2rem] text-gray-600 mb-4">{task.description}</p>
