@@ -87,12 +87,13 @@ const SingleTask = () => {
     <div className="flex flex-col items-center justify-center h-[600px]">
       <div
         className={`bg-white rounded-md border border-gray-200 p-6 w-full max-w-2xl 
+    shadow-md shadow-gray-400
+    hover:shadow-lg transition-shadow duration-200
     ${
       task.stage === "completed"
-        ? "shadow-lg shadow-green-400"
-        : "shadow-lg shadow-red-400"
+        ? "hover:shadow-green-400"
+        : "hover:shadow-red-400"
     }
-    hover:shadow-xl hover:shadow-opacity-50 transition-shadow duration-200
   `}
       >
         <div className="p-4">
