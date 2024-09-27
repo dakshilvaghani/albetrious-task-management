@@ -90,21 +90,27 @@ export const deleteTask = async (req, res) => {
 };
 
 export const filterTaskByDate = async (req, res) => {
-  const { date } = req.query;
-  console.log("Query Parameters:", req.query);
+  const { stage, date } = req.query;
 
   const filters = {};
 
-  if (date) {
-    const startDate = new Date(date);
-    const endDate = new Date(startDate);
-    endDate.setDate(startDate.getDate() + 1);
+  // Check for stage filter 
+  if (stage) {
+    filters.stage = stage; 
+  }
 
+  // Check for date filter
+  if (date) {
+    const startDate = new Date(date); 
+    const endDate = new Date(startDate);
+    endDate.setDate(startDate.getDate() + 1); 
+
+    
     filters.date = { $gte: startDate, $lt: endDate };
   }
 
   try {
-    const tasks = await Task.find(filters);
+    const tasks = await Task.find(filters); 
     res.status(200).json({ status: true, tasks });
   } catch (error) {
     res.status(500).json({ status: false, message: error.message });
