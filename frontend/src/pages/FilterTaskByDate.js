@@ -2,15 +2,18 @@ import React, { useState } from "react";
 import axios from "axios";
 import DatePicker from "../components/DatePicker";
 import TaskList from "../components/TaskList";
+import ClipLoader from "react-spinners/ClipLoader"; // Import the spinner
 
 const FilterTasks = () => {
   const [selectedDate, setSelectedDate] = useState("");
-  const [selectedStage, setSelectedStage] = useState("");
-  const [title, setTitle] = useState(""); 
+  const [selectedStage, setSelectedStage] = useState(""); // Add stage state
+  const [title, setTitle] = useState(""); // Add title state
   const [tasks, setTasks] = useState([]);
+  const [loading, setLoading] = useState(false); // Loading state
 
   // Fetch filtered tasks based on date, stage, and title
   const handleFilterTasks = async () => {
+    setLoading(true); 
     try {
       const response = await axios.get(
         `${process.env.REACT_APP_BASE_URL}/task/filter`,
@@ -25,6 +28,8 @@ const FilterTasks = () => {
       setTasks(response.data.tasks);
     } catch (error) {
       console.error("Error fetching tasks:", error);
+    } finally {
+      setLoading(false); 
     }
   };
 
@@ -78,6 +83,13 @@ const FilterTasks = () => {
           Submit
         </button>
       </div>
+
+      {/* Loading Spinner */}
+      {loading && (
+        <div className="flex justify-center mt-10">
+          <ClipLoader color="#007bff" loading={loading} size={30} />
+        </div>
+      )}
 
       {/* Task List */}
       <TaskList tasks={tasks} className="mt-5" />
