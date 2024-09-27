@@ -17,7 +17,7 @@ const TaskList = ({ tasks }) => {
       {tasks &&
         tasks.map((task) => (
           <Link
-            className="w-full h-full md:w-[33%] lg:w-[28%] md:ml-5 lg:ml-12 md:mb-4 lg:mb-4"
+            className="w-full h-full md:w-[40%] lg:w-[28%] m-2 md:m-5 lg:m-5"
             key={task._id}
             to={`/tasks/${task._id}`}
           >
