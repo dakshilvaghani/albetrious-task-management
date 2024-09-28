@@ -111,11 +111,11 @@ export const filterTaskByDate = async (req, res) => {
 
   // Check for title filter
   if (title) {
-    filters.title = { $regex: title, $options: "i" }; // Case-insensitive title search
+    filters.title = { $regex: title, $options: "i" }; 
   }
 
   try {
-    const tasks = await Task.find(filters); // Find tasks that match the filters
+    const tasks = await Task.find(filters);
     res.status(200).json({ status: true, tasks });
   } catch (error) {
     res.status(500).json({ status: false, message: error.message });
