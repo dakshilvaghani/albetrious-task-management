@@ -1,7 +1,7 @@
-// src/redux/actions/taskActions.js
+
 import axios from "axios";
 
-const API_URL = "http://localhost:5000/api/tasks"; // Your backend API URL
+const API_URL = "http://localhost:5000/api/tasks"; 
 
 export const fetchTasks = () => async (dispatch) => {
   dispatch({ type: "FETCH_TASKS_REQUEST" });
