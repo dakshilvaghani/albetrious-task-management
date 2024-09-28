@@ -72,7 +72,7 @@ const FilterTasks = () => {
             type="text"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
-            className="px-4 py-2 border rounded w-full md:w-[50%] lg:w-[25%]"
+            className="px-4 py-2 border rounded w-full md:w-[50%] lg:w-[50%]"
             placeholder="Search by title"
           />
         </div>
