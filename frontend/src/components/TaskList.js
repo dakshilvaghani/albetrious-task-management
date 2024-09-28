@@ -5,7 +5,7 @@ import Card from "./Card";
 const TaskList = ({ tasks }) => {
   if (!tasks.length || tasks==="undefined") {
     return (
-      <div className="ml-5 lg:ml-[125px] xl:ml-[140px] 2xl:ml-[220px]">
+      <div className="text-center">
         No tasks available.
       </div>
     ); // Handle empty tasks scenario
