@@ -35,7 +35,7 @@ const FilterTasks = () => {
 
   return (
      <div className="w-full ">
-      <div className="flex justify-center text-center flex-col">
+      <div className="flex justify-center items-center flex-col">
         <div className="w-full md:w-[50%] lg:w-[40%]">
         <h2 className="text-xl font-bold mb-4">Filter Tasks</h2>
 
