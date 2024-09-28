@@ -55,7 +55,7 @@ const FilterTasks = () => {
             id="stage"
             value={selectedStage}
             onChange={(e) => setSelectedStage(e.target.value)}
-            className="px-4 py-2 border rounded w-full"
+            className="px-4 py-2 border rounded"
           >
             <option value="">All Stages</option>
             <option value="in progress">In Progress</option>
