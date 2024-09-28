@@ -8,7 +8,7 @@ const TaskList = ({ tasks }) => {
       <div className="text-center">
         No tasks available.
       </div>
-    ); // Handle empty tasks scenario
+    );
   }
 
   return (
