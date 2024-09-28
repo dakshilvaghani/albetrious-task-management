@@ -2,14 +2,14 @@ import React, { useState } from "react";
 import axios from "axios";
 import DatePicker from "../components/DatePicker";
 import TaskList from "../components/TaskList";
-import ClipLoader from "react-spinners/ClipLoader"; // Import the spinner
+import ClipLoader from "react-spinners/ClipLoader"; 
 
 const FilterTasks = () => {
   const [selectedDate, setSelectedDate] = useState("");
-  const [selectedStage, setSelectedStage] = useState(""); // Add stage state
-  const [title, setTitle] = useState(""); // Add title state
+  const [selectedStage, setSelectedStage] = useState("");
+  const [title, setTitle] = useState(""); 
   const [tasks, setTasks] = useState([]);
-  const [loading, setLoading] = useState(false); // Loading state
+  const [loading, setLoading] = useState(false); 
 
   // Fetch filtered tasks based on date, stage, and title
   const handleFilterTasks = async () => {
