@@ -36,7 +36,7 @@ const FilterTasks = () => {
   return (
     <div className="w-full ">
       <div className="w-full flex justify-center items-center flex-col">
-        <div className="">
+        <div className="w-full md:w-[50%] lg:w-[50%] xl:w-[35%]">
         <h2 className="text-xl font-bold mb-4">Filter Tasks</h2>
 
         {/* Date Filter */}
