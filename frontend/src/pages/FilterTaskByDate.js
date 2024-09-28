@@ -34,15 +34,16 @@ const FilterTasks = () => {
   };
 
   return (
-     <div className="w-full ">
-      <div className="flex justify-center items-center flex-col">
-        <div className="w-full md:w-[50%] lg:w-[40%]">
+    <div className="w-full ">
+      <div className="w-full md:w-[50%] lg:w-[50%] flex justify-center items-center flex-col">
+        <div className="">
         <h2 className="text-xl font-bold mb-4">Filter Tasks</h2>
 
         {/* Date Filter */}
         <DatePicker
           selectedDate={selectedDate}
           setSelectedDate={setSelectedDate}
+            className="w-full"
         />
 
         {/* Stage Filter */}
@@ -54,7 +55,7 @@ const FilterTasks = () => {
             id="stage"
             value={selectedStage}
             onChange={(e) => setSelectedStage(e.target.value)}
-            className="px-4 py-2 border rounded"
+            className="px-4 py-2 border rounded w-full"
           >
             <option value="">All Stages</option>
             <option value="in progress">In Progress</option>
@@ -72,7 +73,7 @@ const FilterTasks = () => {
             type="text"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
-            className="px-4 py-2 border rounded w-full md:w-[50%] lg:w-[50%]"
+            className="px-4 py-2 border rounded w-full"
             placeholder="Search by title"
           />
         </div>
